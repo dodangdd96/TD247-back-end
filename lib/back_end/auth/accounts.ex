@@ -1,0 +1,44 @@
+defmodule BackEnd.Auth.Accounts do
+  import Ecto.Query, warn: false
+  alias BackEnd.Repo
+  alias BackEnd.Auth.Account
+
+  def get_account_by_id(id) do
+    Repo.get(Account, id)
+  end
+
+  def get_account(id) do
+    case Repo.get(Account, id) do
+      nil -> {:error, :entity_not_existed}
+      value -> {:ok, value}
+    end
+  end
+
+  def get_account_by_email(email, role) do
+    query = from(a in Account, where: a.email == ^email and a.role == ^role)
+    Repo.one(query)
+  end
+
+  def create_account(params) do
+    url = String.split(params.email, "@") |> List.first()
+    params = Map.merge(params, %{account_url: url})
+
+    %Account{}
+    |> Account.changeset(params)
+    |> Repo.insert()
+  end
+
+  def update_account(account, params) do
+    account
+    |> Account.changeset_update(params)
+    |> Repo.update()
+  end
+
+  def get_user_by_url(account_url) do
+    Repo.get_by(Account, %{account_url: account_url})
+    |> case do
+      nil -> {:error, :entity_not_existed}
+      account -> {:ok, account}
+    end
+  end
+end
