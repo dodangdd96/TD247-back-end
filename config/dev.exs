@@ -40,8 +40,9 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :back_end, BackEnd.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "back_end_dev",
-  hostname: "localhost",
+  username: System.get_env("POSTGRES_USER") || "postgres",
+  password: System.get_env("POSTGRES_PASSWORD") || "postgres",
+  database: System.get_env("POSTGRES_DB") || "back_end_dev",
+  hostname: System.get_env("DB_HOST") || "localhost",
+  show_sensitive_data_on_connection_error: true,
   pool_size: 10

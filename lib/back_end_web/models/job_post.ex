@@ -1,7 +1,7 @@
 defmodule BackEnd.JobPost do
   use Ecto.Schema
   import Ecto.Changeset
-  alias BackEnd.Company
+  alias BackEnd.Auth.Account
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "job_posts" do
@@ -26,7 +26,7 @@ defmodule BackEnd.JobPost do
     field :email_contact, :string
     field :phone_number_contact, :string
 
-    belongs_to :company, Company, foreign_key: :company_id, type: Ecto.UUID
+    belongs_to :user, Account, foreign_key: :account_id, type: Ecto.UUID
 
     timestamps()
 

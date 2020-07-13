@@ -3,7 +3,7 @@ defmodule BackEndWeb.AuthController do
 
   alias BackEnd.Auth.{Account, Accounts}
   alias BackEndWeb.AuthView
-  alias BackEnd.{ Tools, Company, Guardian, Repo }
+  alias BackEnd.{ Tools, Company, Guardian, Repo, File}
 
   action_fallback(BackendWeb.FallbackController)
 
@@ -25,7 +25,6 @@ defmodule BackEndWeb.AuthController do
 
   def sign_in(conn, %{"email" => email, "role" => role, "password" => password}) do
     user = Accounts.get_account_by_email(email, role)
-
     with {:ok, account} <- Account.check_password(password, user),
          {:ok, token, _} <-
           BackEnd.Guardian.encode_and_sign(
@@ -46,33 +45,19 @@ defmodule BackEndWeb.AuthController do
     end
   end
 
-  def create(
-        _conn,
-        %{
-          "user_name" => user_name,
-          "email" => email,
-          "phone_number" => phone_number,
-          "password" => password_hash,
-          "confirm" => confirm_password,
-          "role" => role,
-          "company_name" => company_name,
-          "personnel_scale" => personnel_scale,
-          "company_address" => company_address,
-          "province" => province
-        } = _params
-      ) do
+  def create(_conn, params) do
     cond do
-      password_hash != confirm_password ->
+      params["password"] != params["confirm"] ->
         {:failed, :success_false_with_reason, "Mật khẩu không khớp"}
-      !Tools.validate_email(email) ->
+      !Tools.validate_email(params["email"]) ->
         {:failed, :success_false_with_reason, "Email không hợp lệ"}
       true ->
         user = %{
-          user_name: user_name,
-          email: email,
-          password_hash: password_hash,
-          role: role,
-          phone_number: phone_number
+          user_name: params["user_name"],
+          email: params["email"],
+          password_hash: params["password"],
+          role: params["role"],
+          phone_number: params["phone_number"]
         }  
         with {:ok, account} <- Accounts.create_account(user),
              {:ok, token, _} <-
@@ -80,25 +65,37 @@ defmodule BackEndWeb.AuthController do
                  id: account.id,
                  email: account.email,
                  user_name: account.user_name,
-                 role: account.role
+                 role: account.role,
+                 phone_number: account.phone_number
                }) do
-            if role == "employer" do 
+            if params["role"] == "employer" do 
               company = 
                 %{
-                  company_name: company_name,
-                  personnel_scale: personnel_scale,
-                  company_address: company_address,
-                  province: province,
+                  company_name: params["company_name"],
+                  personnel_scale: params["personnel_scale"],
+                  company_address: params["company_address"],
+                  province: params["province"],
                   description: nil,
                   field_of_activity: nil,
                   website: nil,
-                  company_phone_number: phone_number,
+                  company_phone_number: params["phone_number"],
                   fax: nil,
                   account_id: account.id
                 }
               %Company{}
               |> Company.changeset(company)
-              |> Repo.insert() 
+              |> Repo.insert()
+            else
+              file = 
+              %{
+                full_name: params["user_name"],
+                email: params["email"],
+                phone_number: params["phone_number"],
+                account_id: account.id
+              }
+              %File{}
+              |> File.changeset(company)
+              |> Repo.insert()
             end
           account = AuthView.render("user.json", account)
 

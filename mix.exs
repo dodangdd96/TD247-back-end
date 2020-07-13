@@ -42,7 +42,8 @@ defmodule BackEnd.Mixfile do
       {:plug_cowboy, "~> 1.0"},
       {:bcrypt_elixir, "~> 2.0"},
       {:guardian, "~> 2.0"},
-      {:cors_plug, "~> 2.0"}
+      {:cors_plug, "~> 2.0"},
+      {:jason, "~> 1.0"},
     ]
   end
 

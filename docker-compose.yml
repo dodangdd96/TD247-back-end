@@ -1,0 +1,31 @@
+version: "2"
+services:
+  demo_phoenix_api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: mix phx.server
+    environment:
+      DB_HOST: db
+      PORT: 4000
+    env_file: .dev.env
+    ports:
+      - "4000:4000"
+    volumes:
+      - .:/app
+    links:
+      - db
+    depends_on:
+      - db
+    dns: 8.8.8.8
+    networks:
+      - default
+  db:
+    image: postgres:12-alpine
+    ports:
+      - "6689:5432"
+    environment:
+      PGDATA: /data/pgdata
+    env_file: .dev.env
+    volumes:
+      - ./data:/data

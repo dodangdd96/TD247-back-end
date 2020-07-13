@@ -19,12 +19,13 @@ defmodule BackEnd.Repo.Migrations.AddJobPostTable do
       add(:sex, :string)
       add(:period, :naive_datetime)
       add(:language, :string)
-      add(:job_requirements, :string)
-      add(:profile_required, :string)
+      add(:job_requirements, :text)
+      add(:profile_required, :text)
       add(:contact, :string)
       add(:email_contact, :string)
       add(:phone_number_contact, :string)
-      add(:company_id, :uuid)
+      add(:account_id, :uuid)
+      add(:is_posted, :boolean)
 
       timestamps()
     end

@@ -29,5 +29,35 @@ defmodule BackEnd.Repo.Migrations.AddTable do
 
       timestamps()
     end
+
+    create table(:applied, primary_key: false) do
+      add(:id, :binary_id, primary_key: true)
+      add(:account_id, :uuid, null: false)
+      add(:job_id, :uuid, null: false)
+      add(:status, :string)
+      add(:note, :string)
+
+      timestamps()
+    end
+
+    create table(:saved_jobs, primary_key: false) do
+      add(:id, :binary_id, primary_key: true)
+      add(:account_id, :uuid, null: false)
+      add(:job_id, :uuid, null: false)
+      add(:note, :string)
+      add(:is_removed, :boolean)
+
+      timestamps()
+    end
+
+    create table(:saved_files, primary_key: false) do
+      add(:id, :binary_id, primary_key: true)
+      add(:account_id, :uuid, null: false)
+      add(:file_id, :uuid, null: false)
+      add(:note, :string)
+      add(:is_removed, :boolean)
+
+      timestamps()
+    end
   end
 end

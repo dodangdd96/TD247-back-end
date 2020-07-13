@@ -31,10 +31,11 @@ defmodule BackEndWeb.Router do
       post("/me", AuthController, :auth_account)
     end
 
-    resources "/company", CompanyController, only: [:index, :show]
-    post "update_company/:id", CompanyController, :update
-
-    resources "/job_post", JobPostController, except: [:new, :edit]
+    resources "/company", CompanyController, only: [:index, :show, :update]
+    resources "/job_post", JobPostController, only: [:index, :create, :update, :show]
+    resources "/saved_job", SavedJobController, only: [:index, :create, :update, :show]
+    resources "/saved_file", SavedFileController, only: [:index, :create, :update, :show]
+    resources "/apply", AppliedController, only: [:index, :create, :update, :show]
 
   end
 end

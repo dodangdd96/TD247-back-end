@@ -18,7 +18,7 @@ extract_plural_form({{plural_form, _Line, PluralForm}, String}) ->
 add_comments_to_translation({TranslationType, Translation}, Comments) ->
   {TranslationType, maps:put(comments, Comments, Translation)}.
 
--file("/usr/local/Cellar/erlang/21.3.7.1/lib/erlang/lib/parsetools-2.1.8/include/yeccpre.hrl", 0).
+-file("/usr/local/lib/erlang/lib/parsetools-2.1.8/include/yeccpre.hrl", 0).
 %%
 %% %CopyrightBegin%
 %%

@@ -62,7 +62,7 @@ defmodule BackEnd.File do
     def changeset(struct, params \\ %{}) do
       struct
       |> cast(params, @optional_fields)
-      |> validate_required([:full_name, :phone_number, :email, :date_of_birth, :address],
+      |> validate_required([:full_name, :phone_number, :email],
 				message: "Thiếu trường"
 		)
     end
