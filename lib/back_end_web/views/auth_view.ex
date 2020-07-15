@@ -4,7 +4,8 @@ defmodule BackEndWeb.AuthView do
       :user_name,
       :email,
       :id,
-      :role
+      :role,
+      :phone_number
     ])
   end
 

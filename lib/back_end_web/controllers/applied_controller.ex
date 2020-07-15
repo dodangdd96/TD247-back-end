@@ -10,14 +10,14 @@ defmodule BackEndWeb.AppliedController do
       a in Applied,
       where: a.account_id == ^user_id,
       preload: [:job]
-    )
+		)
 
-    applieds = query |> Repo.all
+    applieds = Repo.all(query)
     render(conn, "index.json", applieds: applieds)
   end
 
-	def create(conn, %{"applied" => applied}) do
-    changeset = Applied.changeset(%Applied{}, applied)
+	def create(conn, params) do
+    changeset = Applied.changeset(%Applied{}, params["applied"])
     
     case Repo.insert(changeset) do
       {:ok, applied} ->

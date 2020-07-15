@@ -11,7 +11,7 @@ defmodule BackEndWeb.SavedJobView do
     %{success: true, data: render_one(saved_job, __MODULE__, "saved_job.json")}
   end
 
-  def render("applied.json", %{saved_job: saved_job}) do
+  def render("saved_job.json", %{saved_job: saved_job}) do
     job = if Tools.assoc_loaded?(saved_job.job),do: render_many(saved_job.job, __MODULE__, "job.json", as: :job)
 		saved_job = %{
 			id: saved_job.id

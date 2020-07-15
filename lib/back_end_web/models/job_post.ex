@@ -31,8 +31,8 @@ defmodule BackEnd.JobPost do
     timestamps()
 
     @optional_fields [:position, :wage, :number_of_recruitment, :level, :type_of_work,
-      :province, :career, :description, :benefit, :experience,
-      :degree, :sex, :period, :language, :job_requirements,
+      :province, :career, :description, :benefit, :experience, :index,
+      :degree, :sex, :period, :language, :job_requirements, :account_id,
       :profile_required, :contact, :email_contact, :phone_number_contact,
     ]
   end

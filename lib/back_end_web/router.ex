@@ -35,7 +35,9 @@ defmodule BackEndWeb.Router do
     resources "/job_post", JobPostController, only: [:index, :create, :update, :show]
     resources "/saved_job", SavedJobController, only: [:index, :create, :update, :show]
     resources "/saved_file", SavedFileController, only: [:index, :create, :update, :show]
-    resources "/apply", AppliedController, only: [:index, :create, :update, :show]
+    resources "/applied", AppliedController, only: [:index, :create, :update, :show]
+    resources "/files", FileController, only: [:index, :create, :update, :show]
+    get "/file_by_user", FileController, :get_by_user
 
   end
 end

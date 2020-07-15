@@ -24,4 +24,10 @@ defmodule BackEnd.Tools do
   def to_int(el) when is_bitstring(el), do: String.to_integer(el)
   def to_int(el) when is_integer(el), do: el
   def to_int(_), do: 0
+
+  def assoc_loaded?(%Ecto.Association.NotLoaded{}), do: false
+  def assoc_loaded?(list) when is_list(list), do: true
+  def assoc_loaded?(%{}), do: true
+  def assoc_loaded?(%_{}), do: true
+  def assoc_loaded?(nil), do: true
 end

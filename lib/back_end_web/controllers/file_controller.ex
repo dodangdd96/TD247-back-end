@@ -1,7 +1,7 @@
 defmodule BackEndWeb.FileController do
   use BackEndWeb, :controller
   import Ecto.Query, warn: false
-  alias BackEnd.{Company, Repo, File}
+  alias BackEnd.{Repo, File}
 
   def index(conn, params) do
     text_search = params["search"]
@@ -37,7 +37,17 @@ defmodule BackEndWeb.FileController do
         |> put_view(BackEndWeb.ChangesetView)
         |> render("error.json", changeset: changeset)
     end
-	end
+  end
+  
+  def get_by_user(conn, %{"user_id" => user_id}) do
+    file = 
+      from(
+        f in File,
+        where: f.account_id == ^user_id
+      )
+    |> Repo.one
+    render(conn, "show.json", file: file)
+  end
 
   def show(conn, %{"id" => id}) do
     file = 
@@ -50,8 +60,9 @@ defmodule BackEndWeb.FileController do
   end
 
   def update(conn, params) do
-    file = Repo.get_by!(Company, id: params["id"])
-    changeset = Company.changeset(file, params)
+    file_params = params["file"]
+    file = Repo.get_by!(File, id: params["id"])
+    changeset = File.changeset(file, file_params)
 
     case Repo.update(changeset) do
       {:ok, file} ->

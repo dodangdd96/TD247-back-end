@@ -33,7 +33,8 @@ defmodule BackEndWeb.AuthController do
                id: account.id,
                email: account.email,
                user_name: account.user_name,
-               role: account.role
+               role: account.role,
+               phone_number: account.phone_number
              },
              week: 4
            ) do
@@ -94,7 +95,7 @@ defmodule BackEndWeb.AuthController do
                 account_id: account.id
               }
               %File{}
-              |> File.changeset(company)
+              |> File.changeset(file)
               |> Repo.insert()
             end
           account = AuthView.render("user.json", account)

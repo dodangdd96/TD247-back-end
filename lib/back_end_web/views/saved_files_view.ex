@@ -11,9 +11,9 @@ defmodule BackEndWeb.SavedFileView do
     %{success: true, data: render_one(saved_file, __MODULE__, "saved_file.json")}
   end
 
-  def render("applied.json", %{saved_file: saved_file}) do
+  def render("saved_file.json", %{saved_file: saved_file}) do
     file = if Tools.assoc_loaded?(saved_file.file),do: render_many(saved_file.file, __MODULE__, "job.json", as: :file)
-		saved_file = %{
+		%{
 			id: saved_file.id
 		}
 		|> Map.put(:file, file)

@@ -42,6 +42,7 @@ defmodule BackEnd.File do
       field :advanced_skill, {:array, :string}
       field :language_skills, {:array, :map}
       field :office_skills, {:array, :map}
+      field :career, :string
   
 			belongs_to :account, Account, foreign_key: :account_id, type: Ecto.UUID
   
@@ -49,13 +50,13 @@ defmodule BackEnd.File do
   
       @optional_fields [:full_name, :phone_number, :email, :date_of_birth, :address,
         :minimum_wage, :position, :years_of_experience, :benefit, :level,
-        :degree, :sex, :career_goals, :academic_level,
-				:workplace, :type_of_work, :salary, :maximun_wage,
+        :degree, :sex, :career_goals, :academic_level, :career,
+				:workplace, :type_of_work, :salary, :maximun_wage, :marital_status,
 				:describe_the_goal, :training_places, :training_department,
 				:specialized, :classification, :time_to_start_learning, :time_to_end_learning,
 				:additional_information, :comapny_position, :comapny, :time_to_start_work,
 				:time_to_end_work, :current_work, :work_description, :advanced_skill_note,
-				:advanced_skill, :language_skills, :office_skills,
+				:advanced_skill, :language_skills, :office_skills, :account_id
       ]
     end
   

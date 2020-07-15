@@ -15,7 +15,7 @@ defmodule BackEnd.SavedFile do
 
     timestamps()
 
-    @optional_fields [:is_removed, :note]
+    @optional_fields [:is_removed, :note, :account_id, :file_id]
   end
 
   def changeset(struct, params \\ %{}) do
